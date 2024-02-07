@@ -9,7 +9,7 @@ type HeaderProps = {
 
 export function Header({ title, amountItems = 0 }: HeaderProps) {
   return (
-    <View className="flex-row items-center border-b border-slate-700 pb-5 mx-5 mb-8">
+    <View className="flex-row items-center border-b border-slate-700 pb-5 mx-5 my-5">
       <View className="flex-1">
         <Image source={require("@/assets/logo.png")} className="h-6 w-32" />
         <Text className="text-xl text-white font-heading mt-2">{title}</Text>

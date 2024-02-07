@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { Text, Pressable, PressableProps } from "react-native";
 
 type CategoryProps = PressableProps & {
@@ -10,11 +11,13 @@ export function CategoryButton({
   isSelected = false,
   ...rest
 }: CategoryProps) {
+  const buttonClass = clsx(
+    "bg-slate-800 px-4 items-center justify-center rounded-lg h-10",
+    isSelected && "border border-lime-300"
+  );
+
   return (
-    <Pressable
-      className="bg-slate-800 px-4 items-center justify-center rounded-lg h-10 {isSelected ? 'border-lime-300' : ' border-none'}"
-      {...rest}
-    >
+    <Pressable className={buttonClass} {...rest}>
       <Text className="text-slate-100 font-subtitle text-sm">{title}</Text>
     </Pressable>
   );
