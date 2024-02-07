@@ -1,8 +1,9 @@
 import { CategoryButton } from "@/components/category-button";
 import { Header } from "@/components/header";
-import { CATEGORIES } from "@/utils/data/products";
+import { MenuItem } from "@/components/menu-item";
+import { CATEGORIES, MENU } from "@/utils/data/products";
 import { useState } from "react";
-import { Text, View, FlatList } from "react-native";
+import { Text, View, FlatList, SectionList } from "react-native";
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -29,6 +30,17 @@ export default function Home() {
             isSelected={item === selectedCategory}
             onPress={() => handleSelectCategory(item)}
           />
+        )}
+      />
+      <SectionList
+        className="flex-1 p-5"
+        showsVerticalScrollIndicator={false}
+        sections={MENU}
+        keyExtractor={(item) => item.id}
+        stickySectionHeadersEnabled={false}
+        renderItem={({ item }) => <MenuItem data={item} />}
+        renderSectionHeader={({ section: { title } }) => (
+          <Text className="text-white text-xl my-8">{title}</Text>
         )}
       />
     </View>
