@@ -1,16 +1,24 @@
+import { useState, useRef } from "react";
 import { CategoryButton } from "@/components/category-button";
 import { Header } from "@/components/header";
 import { MenuItem } from "@/components/menu-item";
 import { CATEGORIES, MENU } from "@/utils/data/products";
-import { useState } from "react";
 import { Text, View, FlatList, SectionList } from "react-native";
+import { Link } from "expo-router";
 
 export default function Home() {
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(CATEGORIES[0]);
+
+  const sectionListRef = useRef<SectionList>(null);
 
   function handleSelectCategory(category: string) {
-    console.log(category);
     setSelectedCategory(category);
+    const sectionIndex = CATEGORIES.findIndex((item) => item === category);
+    sectionListRef.current?.scrollToLocation({
+      sectionIndex,
+      itemIndex: 0,
+      viewOffset: 20,
+    });
   }
 
   return (
@@ -33,12 +41,18 @@ export default function Home() {
         )}
       />
       <SectionList
+        ref={sectionListRef}
         className="flex-1 p-5"
+        contentContainerStyle={{ paddingBottom: 100 }}
         showsVerticalScrollIndicator={false}
         sections={MENU}
         keyExtractor={(item) => item.id}
         stickySectionHeadersEnabled={false}
-        renderItem={({ item }) => <MenuItem data={item} />}
+        renderItem={({ item }) => (
+          <Link href={`/product/${item.id}`} asChild>
+            <MenuItem data={item} />
+          </Link>
+        )}
         renderSectionHeader={({ section: { title } }) => (
           <Text className="text-white text-xl my-8">{title}</Text>
         )}
