@@ -137,4 +137,6 @@ const CATEGORIES = MENU.map((item) => item.title);
 
 type ProductProps = (typeof PRODUCTS)[0];
 
+type Menuprops = (typeof MENU)[0];
+
 export { MENU, PRODUCTS, CATEGORIES, ProductProps };

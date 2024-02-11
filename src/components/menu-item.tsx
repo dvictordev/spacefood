@@ -1,3 +1,4 @@
+import { formatCurrency } from "@/utils/functions/format-currency";
 import { forwardRef } from "react";
 import {
   Image,
@@ -9,13 +10,11 @@ import {
 } from "react-native";
 
 export type MenuItemProps = {
-  id: string;
   title: string;
   description: string;
-  price: number;
   cover: ImageProps;
   thumbnail: ImageProps;
-  ingredients: string[];
+  quantity?: number;
 };
 
 type ProductProps = TouchableOpacityProps & {
@@ -32,14 +31,18 @@ export const MenuItem = forwardRef<TouchableOpacity, ProductProps>(
       >
         <Image source={data.thumbnail} className="w-20 h-20 rounded-md" />
         <View className="flex-1 ml-3">
-          <Text className="text-slate-100 text-base font-subtitle flex-1">
-            {data.title}
-          </Text>
+          <View className="flex-row items-center">
+            <Text className="text-slate-100 text-base font-subtitle flex-1">
+              {data.title}
+            </Text>
+            {data.quantity && (
+              <Text className="text-slate-100 text-base font font-subtitle">
+                x{data.quantity}
+              </Text>
+            )}
+          </View>
           <Text className="text-xs text-slate-400 leading-5 mt-0.5">
             {data.description}
-          </Text>
-          <Text className="text-white text-sm font-bold mt-2">
-            R$ {data.price}
           </Text>
         </View>
       </TouchableOpacity>

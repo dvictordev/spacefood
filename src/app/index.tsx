@@ -2,14 +2,21 @@ import { useState, useRef } from "react";
 import { CategoryButton } from "@/components/category-button";
 import { Header } from "@/components/header";
 import { MenuItem } from "@/components/menu-item";
-import { CATEGORIES, MENU } from "@/utils/data/products";
+import { CATEGORIES, MENU, ProductProps } from "@/utils/data/products";
 import { Text, View, FlatList, SectionList } from "react-native";
 import { Link } from "expo-router";
+import { useCartStore } from "@/store/cart-store";
 
 export default function Home() {
+  const cartStore = useCartStore();
   const [selectedCategory, setSelectedCategory] = useState(CATEGORIES[0]);
 
   const sectionListRef = useRef<SectionList>(null);
+
+  const cartQuantityItems = cartStore.products.reduce(
+    (total, product) => total + product.quantity,
+    0
+  );
 
   function handleSelectCategory(category: string) {
     setSelectedCategory(category);
@@ -23,7 +30,7 @@ export default function Home() {
 
   return (
     <View className="flex-1 pt-9">
-      <Header title={"Faça seu pedido"} amountItems={2} />
+      <Header title={"Faça seu pedido"} amountItems={cartQuantityItems} />
 
       <FlatList
         className="max-h-10 mt-3"
@@ -46,11 +53,11 @@ export default function Home() {
         contentContainerStyle={{ paddingBottom: 100 }}
         showsVerticalScrollIndicator={false}
         sections={MENU}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item: ProductProps) => item.id}
         stickySectionHeadersEnabled={false}
         renderItem={({ item }) => (
           <Link href={`/product/${item.id}`} asChild>
-            <MenuItem data={item} />
+            <MenuItem data={item} className="pb-5" />
           </Link>
         )}
         renderSectionHeader={({ section: { title } }) => (

@@ -1,6 +1,7 @@
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import colors from "tailwindcss/colors";
+import { Link } from "expo-router";
 
 type HeaderProps = {
   title: string;
@@ -14,15 +15,18 @@ export function Header({ title, amountItems = 0 }: HeaderProps) {
         <Image source={require("@/assets/logo.png")} className="h-6 w-32" />
         <Text className="text-xl text-white font-heading mt-2">{title}</Text>
       </View>
+
       {amountItems > 0 && (
-        <TouchableOpacity activeOpacity={0.6} className="relative">
-          <View className="bg-lime-300 w-4 h-4 rounded-full items-center justify-center top-2 z-10 -right-3.5">
-            <Text className="text-slate-900 font-bold text-xs">
-              {amountItems}
-            </Text>
-          </View>
-          <Feather name="shopping-bag" color={colors.white} size={24} />
-        </TouchableOpacity>
+        <Link href={"/cart"} asChild>
+          <TouchableOpacity activeOpacity={0.6} className="relative">
+            <View className="bg-lime-300 w-4 h-4 rounded-full items-center justify-center top-2 z-10 -right-3.5">
+              <Text className="text-slate-900 font-bold text-xs">
+                {amountItems}
+              </Text>
+            </View>
+            <Feather name="shopping-bag" color={colors.white} size={24} />
+          </TouchableOpacity>
+        </Link>
       )}
     </View>
   );
